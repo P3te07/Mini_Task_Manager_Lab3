@@ -436,6 +436,11 @@
     transition: width 0.5s cubic-bezier(.4,0,.2,1);
   }
 
+  .task-item.expired {
+  border-color: #ff5f5f;
+  background: rgba(255,95,95,0.05);
+  }
+  
   /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }

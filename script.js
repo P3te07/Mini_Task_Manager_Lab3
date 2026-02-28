@@ -16,6 +16,7 @@
   const progressPct  = document.getElementById('progress-pct');
   const filterBtns   = document.querySelectorAll('.filter-btn');
 
+  const deadlineInput = document.getElementById('deadline-input');
   // ── HELPERS ──
   function save() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
@@ -79,15 +80,37 @@
           <input type="checkbox" ${t.done ? 'checked' : ''}>
           <span class="checkmark"></span>
         </label>
-        <span class="task-text">${escHtml(t.text)}</span>
+        <span class="task-text" contenteditable="true">${escHtml(t.text)}</span>
         <span class="priority-badge ${badgeClass}">${badgeLabel}</span>
-        <span class="task-meta">${timeAgo(t.created)}</span>
+        <span class="task-meta">
+          ${timeAgo(t.created)}
+          ${t.deadline ? ' | ⏰ ' + t.deadline : ''}
+        </span>
         <button class="del-btn" title="Șterge">✕</button>
       `;
+      if (t.deadline && !t.done) {
+        const today = new Date().toISOString().split('T')[0];
+        if (t.deadline < today) {
+          item.classList.add('expired');
+        }
+      }
+      item.querySelector('input[type=checkbox]')
+  .addEventListener('change', () => toggleDone(t.id));
 
-      item.querySelector('input[type=checkbox]').addEventListener('change', () => toggleDone(t.id));
-      item.querySelector('.del-btn').addEventListener('click', () => deleteTask(t.id));
+      item.querySelector('.del-btn')
+  .addEventListener('click', () => deleteTask(t.id));
 
+const textEl = item.querySelector('.task-text');
+
+textEl.addEventListener('blur', () => {
+  const newText = textEl.textContent.trim();
+  if (newText) {
+    t.text = newText;
+    save();
+  } else {
+    textEl.textContent = t.text;
+  }
+});
       taskListEl.appendChild(item);
     });
   
@@ -123,9 +146,11 @@
       text,
       priority: prioritySel.value,
       done: false,
-      created: Date.now()
+      created: Date.now(),
+      deadline: deadlineInput.value || null
     });
     taskInput.value = '';
+    deadlineInput.value = '';
     taskInput.focus();
     save();
     render();
@@ -137,6 +162,7 @@
   }
 
   function deleteTask(id) {
+    if (!confirm('Sigur vrei să ștergi această sarcină?')) return;
     const el = taskListEl.querySelector(`[data-id="${id}"]`);
     if (el) {
       el.style.transition = 'opacity 0.25s, transform 0.25s';
