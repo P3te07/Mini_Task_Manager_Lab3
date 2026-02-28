@@ -13,7 +13,14 @@
     --done-op: 0.45;
     --r: 10px;
   }
-
+  body.light {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --surface2: #f0f0f3;
+    --border: #d8d8de;
+    --text: #1a1a1a;
+    --muted: #6a6a75;
+  }
   html, body {
     height: 100%;
     background: var(--bg);

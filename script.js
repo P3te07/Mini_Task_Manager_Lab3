@@ -34,6 +34,13 @@
     return `${d}z ago`;
   }
 
+  const themeToggle = document.getElementById('theme-toggle');
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    themeToggle.textContent = isLight ? '🌙 Mod Dark' : '🌙 Mod Light';
+  });
   // ── RENDER ──
   function render() {
     updateStats();
