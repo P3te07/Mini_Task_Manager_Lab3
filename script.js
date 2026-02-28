@@ -69,7 +69,7 @@
           <input type="checkbox" ${t.done ? 'checked' : ''}>
           <span class="checkmark"></span>
         </label>
-        <span class="task-text">${escHtml(t.text)}</span>
+        <span class="task-text" contenteditable="true">${escHtml(t.text)}</span>
         <span class="priority-badge ${badgeClass}">${badgeLabel}</span>
         <span class="task-meta">${timeAgo(t.created)}</span>
         <button class="del-btn" title="Șterge">✕</button>
@@ -77,7 +77,20 @@
 
       item.querySelector('input[type=checkbox]').addEventListener('change', () => toggleDone(t.id));
       item.querySelector('.del-btn').addEventListener('click', () => deleteTask(t.id));
+      item.querySelector('input[type=checkbox]')
+    .addEventListener('change', () => toggleDone(t.id));
 
+const textEl = item.querySelector('.task-text');
+
+textEl.addEventListener('blur', () => {
+  const newText = textEl.textContent.trim();
+  if (newText) {
+    t.text = newText;
+    save();
+  } else {
+    textEl.textContent = t.text;
+  }
+});
       taskListEl.appendChild(item);
     });
   }
