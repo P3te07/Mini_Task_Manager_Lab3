@@ -2,6 +2,8 @@
   const STORAGE_KEY = 'taskflow_tasks_v1';
   let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
   let filter = 'all';
+  const searchInput = document.getElementById('search-input');
+  let searchTerm = '';
 
   const taskListEl   = document.getElementById('task-list');
   const taskInput    = document.getElementById('task-input');
@@ -22,6 +24,11 @@
   function genId() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   }
+
+  searchInput.addEventListener('input', e => {
+    searchTerm = e.target.value.toLowerCase();
+    render();
+  });
 
   function timeAgo(ts) {
     const diff = Date.now() - ts;
@@ -45,12 +52,8 @@
   function render() {
     updateStats();
 
-    const filtered = tasks.filter(t => {
-      if (filter === 'all')    return true;
-      if (filter === 'active') return !t.done;
-      if (filter === 'done')   return t.done;
-      return t.priority === filter;
-    });
+   const filtered = tasks.filter(t => {
+   if (!t.text.toLowerCase().includes(searchTerm)) return false;
 
     if (filtered.length === 0) {
       taskListEl.innerHTML = `
