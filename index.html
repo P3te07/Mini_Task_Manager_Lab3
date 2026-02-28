@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskFlow — Gestionar de Sarcini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="logo">Task<span>Flow</span></div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num" id="total-count">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="done-count">0</div>
+        <div class="stat-label">Finalizate</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="pending-count">0</div>
+        <div class="stat-label">În așteptare</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="input-wrap">
+      <input class="task-input" id="task-input" placeholder="Adaugă o sarcină nouă..." maxlength="200" autocomplete="off">
+    </div>
+    <select class="priority-sel" id="priority-sel">
+      <option value="high">🔴 Înaltă</option>
+      <option value="med" selected>🟡 Medie</option>
+      <option value="low">🔵 Scăzută</option>
+    </select>
+    <button class="add-btn" id="add-btn">+ Adaugă</button>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">Toate</button>
+    <button class="filter-btn" data-filter="active">Active</button>
+    <button class="filter-btn" data-filter="done">Finalizate</button>
+    <button class="filter-btn" data-filter="high">🔴 Înaltă</button>
+    <button class="filter-btn" data-filter="med">🟡 Medie</button>
+    <button class="filter-btn" data-filter="low">🔵 Scăzută</button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progres</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="bulk-bar">
+    <span class="bulk-label">Acțiuni rapide</span>
+    <button class="ghost-btn" id="mark-all-done">✓ Marchează toate</button>
+    <button class="ghost-btn" id="clear-done">✕ Șterge finalizate</button>
+  </div>
+
+  <div class="task-list" id="task-list"></div>
+
+</div>
+</body>
+</html>
