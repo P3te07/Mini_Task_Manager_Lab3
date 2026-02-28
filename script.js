@@ -75,10 +75,11 @@
         <button class="del-btn" title="Șterge">✕</button>
       `;
 
-      item.querySelector('input[type=checkbox]').addEventListener('change', () => toggleDone(t.id));
-      item.querySelector('.del-btn').addEventListener('click', () => deleteTask(t.id));
       item.querySelector('input[type=checkbox]')
-    .addEventListener('change', () => toggleDone(t.id));
+  .addEventListener('change', () => toggleDone(t.id));
+
+      item.querySelector('.del-btn')
+  .addEventListener('click', () => deleteTask(t.id));
 
 const textEl = item.querySelector('.task-text');
 
@@ -140,6 +141,7 @@ textEl.addEventListener('blur', () => {
   }
 
   function deleteTask(id) {
+    if (!confirm('Sigur vrei să ștergi această sarcină?')) return;
     const el = taskListEl.querySelector(`[data-id="${id}"]`);
     if (el) {
       el.style.transition = 'opacity 0.25s, transform 0.25s';
