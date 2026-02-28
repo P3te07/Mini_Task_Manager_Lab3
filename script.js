@@ -53,7 +53,7 @@
     updateStats();
 
    const filtered = tasks.filter(t => {
-   if (!t.text.toLowerCase().includes(searchTerm)) return false;
+   if (!t.text.toLowerCase().includes(searchTerm)) return false;})
 
     if (filtered.length === 0) {
       taskListEl.innerHTML = `
@@ -63,7 +63,7 @@
           <p>Adaugă prima ta sarcină mai sus.</p>
         </div>`;
       return;
-    }
+    }}
 
     taskListEl.innerHTML = '';
     filtered.forEach(t => {
@@ -90,7 +90,7 @@
 
       taskListEl.appendChild(item);
     });
-  }
+  
 
   function updateStats() {
     const total   = tasks.length;
