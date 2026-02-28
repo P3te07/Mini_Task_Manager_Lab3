@@ -14,6 +14,7 @@
   const progressPct  = document.getElementById('progress-pct');
   const filterBtns   = document.querySelectorAll('.filter-btn');
 
+  const deadlineInput = document.getElementById('deadline-input');
   // ── HELPERS ──
   function save() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
@@ -71,10 +72,18 @@
         </label>
         <span class="task-text" contenteditable="true">${escHtml(t.text)}</span>
         <span class="priority-badge ${badgeClass}">${badgeLabel}</span>
-        <span class="task-meta">${timeAgo(t.created)}</span>
+        <span class="task-meta">
+          ${timeAgo(t.created)}
+          ${t.deadline ? ' | ⏰ ' + t.deadline : ''}
+        </span>
         <button class="del-btn" title="Șterge">✕</button>
       `;
-
+      if (t.deadline && !t.done) {
+        const today = new Date().toISOString().split('T')[0];
+        if (t.deadline < today) {
+          item.classList.add('expired');
+        }
+      }
       item.querySelector('input[type=checkbox]')
   .addEventListener('change', () => toggleDone(t.id));
 
@@ -127,9 +136,11 @@ textEl.addEventListener('blur', () => {
       text,
       priority: prioritySel.value,
       done: false,
-      created: Date.now()
+      created: Date.now(),
+      deadline: deadlineInput.value || null
     });
     taskInput.value = '';
+    deadlineInput.value = '';
     taskInput.focus();
     save();
     render();
